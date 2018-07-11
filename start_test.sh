@@ -45,12 +45,11 @@ echo "Started to copy on slaves"
 slaveList=`kubectl get po -n $tenant | grep slaves | cut -d ' ' -f1`
 for i in $slaveList
 do
-        kubectl cp $jmx $csv -n kubernauts $i:/jmeter/apache-jmeter-4.0/bin/
+        kubectl cp $csv -n kubernauts $i:/jmeter/apache-jmeter-4.0/bin/
         if [ $? -gt '0' ];then
                 echo "copy failed - $1"
                 exit 1
         else
-                echo "Successfully copied on $i - $jmx"
                 echo "Successfully copied on $i - $csv"
 
         fi
