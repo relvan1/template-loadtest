@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: jmslave
-        image: kubernautslabs/jmeter_slave
+        image: relvan/jmeter-slave
         ports:
         - containerPort: 1099
         - containerPort: 50000

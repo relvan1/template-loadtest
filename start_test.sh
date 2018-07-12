@@ -28,13 +28,11 @@ fi
 
 #Get Master pod details
 
+echo "Started to copy on master"
+
 master_pod=`kubectl get po -n $tenant | grep jmeter-master | awk '{print $1}'`
 
 kubectl cp $jmx -n $tenant $master_pod:/$jmx
-
-#kubectl cp $jmx -n $tenant $master_pod:/jmeter/apache-jmeter-4.0/bin/$jmx
-
-#kubectl cp $csv -n $tenant $master_pod:/jmeter/apache-jmeter-4.0/bin/$csv
 
 echo "Successfully copied on $master_pod - $jmx"
 
