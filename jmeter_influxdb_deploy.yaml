@@ -31,3 +31,5 @@ spec:
       - name: config-volume
         configMap:
          name: influxdb-config
+      nodeSelector:
+        type: storage-and-monitoring

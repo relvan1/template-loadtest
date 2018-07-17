@@ -33,3 +33,5 @@ spec:
           # If you're only using the API Server proxy, set this value instead:
           # value: /api/v1/namespaces/kube-system/services/monitoring-grafana/proxy
           value: /
+      nodeSelector:
+        type: storage-and-monitoring 

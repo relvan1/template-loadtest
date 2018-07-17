@@ -17,18 +17,18 @@ then
     exit
 fi
 
-read -p 'Enter path to the csv file ' csv
+read -p 'Enter path to the csv folder ' csv
 
-if [ ! -f "$csv" ];
+if [ ! -d "$csv" ];
 then
-    echo "CSV file was not found in PATH"
+    echo "CSV folder was not found in PATH"
     echo "Kindly check and input the correct file path"
     exit
 fi
 
 #Get Master pod details
 
-echo "Started to copy on master"
+echo "Started to copy $jmx on master"
 
 master_pod=`kubectl get po -n $tenant | grep jmeter-master | awk '{print $1}'`
 
@@ -38,7 +38,7 @@ echo "Successfully copied on $master_pod - $jmx"
 
 echo 
 
-echo "Started to copy on slaves"
+echo "Started to copy $csv folder on slave pods"
 
 slaveList=`kubectl get po -n $tenant | grep slaves | cut -d ' ' -f1`
 for i in $slaveList
