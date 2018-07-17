@@ -3,8 +3,7 @@ kind: Service
 metadata:
   name: jmeter-slaves-svc
   labels:
-    jmeter_mode: slave1
-    jmeter_mode: slave2
+    jmeter_mode: slave
 spec:
   clusterIP: None
   ports:
@@ -15,5 +14,4 @@ spec:
       name: second
       targetPort: 50000
   selector:
-    jmeter_mode: slave1
-    jmeter_mode: slave2
+    jmeter_mode: slave
