@@ -1,0 +1,24 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: nameVariable
+  labels:
+    jmeter_mode: labelVariable
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      jmeter_mode: labelVariable
+  template:
+    metadata:
+      labels:
+        jmeter_mode: labelVariable
+    spec:
+      containers:
+      - name: jmslave
+        image: relvan/jmeter-slave
+        ports:
+        - containerPort: 1099
+        - containerPort: 50000
+      nodeSelector:
+        type: nodeVariable

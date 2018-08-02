@@ -1,0 +1,33 @@
+apiVersion: apps/v1beta2 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: nameVariable
+  labels:
+    jmeter_mode: labelVariable
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      jmeter_mode: labelVariable
+  template:
+    metadata:
+      labels:
+        jmeter_mode: labelVariable 
+    spec:
+      containers:
+      - name: containerNameVariable
+        image: relvan/jmeter-master
+        command: [ "/bin/bash", "-c", "--" ]
+        args: [ "while true; do sleep 30; done;" ]
+        volumeMounts:
+          - name: loadtest
+            mountPath: /load_test
+            subPath: "load_test"
+        ports:
+        - containerPort: 60000
+      volumes:
+      - name: loadtest 
+        configMap:
+         name: jmeter-load-test
+      nodeSelector:
+        type: nodeVariable
