@@ -86,11 +86,11 @@ do
 
 	sed -i "s/nodeVariable/$nodeName/g" jmeter_master_configmap.yaml
       
-	if [ $? -gt '0' ];then
+	#if [ $? -gt '0' ];then
 
-	kubectl create -n $tenant -f $working_dir/jmeter_master_configmap.yaml
+	kubectl create -n $tenant -f $working_dir/jmeter_master_configmap.yaml  > /dev/null 2>&1
         
-        fi
+        #fi
 
 	sleep 5
 
@@ -111,11 +111,18 @@ do
 	
 	fi
         
-        sleep 10
+        sleep 20
 
         master_pod=`kubectl get po -n $tenant | grep  ${jmxName}-master | awk '{print $1}'`
 
 	kubectl cp $i -n $tenant $master_pod:/$i
+
+	kubectl exec -it -n $tenant $master_pod -- bash -c "echo 35.227.203.198 www.etsy.com >> /etc/hosts"
+	kubectl exec -it -n $tenant $master_pod -- bash -c "echo 35.227.203.198 etsy.com >> /etc/hosts"
+	kubectl exec -it -n $tenant $master_pod -- bash -c "echo 35.227.203.198 openapi.etsy.com >> /etc/hosts"
+	kubectl exec -it -n $tenant $master_pod -- bash -c "echo 35.227.203.198 api.etsy.com >> /etc/hosts"
+
+
 
 	#Get Master pod details
 		
@@ -143,7 +150,18 @@ do
 
 	fi
 
-	sleep 10
+	sleep 20
+
+	slaves=`kubectl get po -n $tenant | grep ${jmxName}-slave | cut -d ' ' -f1`
+	for i in $slaves
+        do
+	kubectl exec -it -n $tenant $i -- bash -c "echo 35.227.203.198 www.etsy.com >> /etc/hosts"
+        kubectl exec -it -n $tenant $i -- bash -c "echo 35.227.203.198 etsy.com >> /etc/hosts"
+        kubectl exec -it -n $tenant $i -- bash -c "echo 35.227.203.198 openapi.etsy.com >> /etc/hosts"
+        kubectl exec -it -n $tenant $i -- bash -c "echo 35.227.203.198 api.etsy.com >> /etc/hosts"
+
+        done
+
 
 	if [ $csv ];then
 	echo "Started to copy $csv folder on slave pods"
@@ -160,6 +178,7 @@ do
                                  fi
                         done
 	fi
+
 	### Service creation ###
 
 	cp templates/jmeter_slaves_svc.yaml $working_dir
@@ -190,6 +209,6 @@ do
 
 	jmxName=`echo $i | cut -d '.' -f1`
         master_pod=`kubectl get po -n $tenant | grep  ${jmxName}-master | awk '{print $1}'`
-	kubectl exec -ti -n $tenant $master_pod -- /jmeter/load_test $jmxName &
+	kubectl exec -ti -n $tenant $master_pod -- bash /jmeter/load_test $jmxName &
 
 done

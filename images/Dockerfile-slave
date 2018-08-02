@@ -1,4 +1,4 @@
-FROM relvan/jmeter-base:latest
+FROM relvan/jmeter-base-slave:latest
 MAINTAINER Softcrylic
 		
 EXPOSE 1099 50000
