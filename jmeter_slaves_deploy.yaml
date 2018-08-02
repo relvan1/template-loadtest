@@ -1,18 +1,18 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: listingpage-slave
+  name: categories-slave
   labels:
-    jmeter_mode: listingpage-slave
+    jmeter_mode: categories-slave
 spec:
   replicas: 1
   selector:
     matchLabels:
-      jmeter_mode: listingpage-slave
+      jmeter_mode: categories-slave
   template:
     metadata:
       labels:
-        jmeter_mode: listingpage-slave
+        jmeter_mode: categories-slave
     spec:
       containers:
       - name: jmslave

@@ -1,9 +1,9 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: listingpage-slave-svc
+  name: categories-slave-svc
   labels:
-    jmeter_mode: listingpage-slave
+    jmeter_mode: categories-slave
 spec:
   clusterIP: None
   ports:
@@ -14,4 +14,4 @@ spec:
       name: second
       targetPort: 50000
   selector:
-    jmeter_mode: listingpage-slave
+    jmeter_mode: categories-slave

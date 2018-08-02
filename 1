@@ -80,21 +80,15 @@ do
 
 	### Master deployment ###
 	
-        cp templates/jmeter_master_configmap.yaml $working_dir
+        cp templates/jmeter_master_configmap.yaml ./
 
 	nodeName=`cat mapper.csv | grep $i | awk 'BEGIN{FS=","} ; { print $3 }'`
 
 	sed -i "s/nodeVariable/$nodeName/g" jmeter_master_configmap.yaml
-      
-	if [ $? -gt '0' ];then
-
+       	
 	kubectl create -n $tenant -f $working_dir/jmeter_master_configmap.yaml
-        
-        fi
 
-	sleep 5
-
-	cp templates/jmeter_master_deploy.yaml $working_dir
+	cp templates/jmeter_master_deploy.yaml ./
 
 	jmxName=`echo $i | cut -d '.' -f1`
 
@@ -126,7 +120,7 @@ do
 
 	### Slaves creation ###
 
-	cp templates/jmeter_slaves_deploy.yaml $working_dir
+	cp templates/jmeter_slaves_deploy.yaml ./
 
 	csv=`cat mapper.csv | grep $i | awk 'BEGIN{FS=","} ; { print $2 }'`
 

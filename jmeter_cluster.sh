@@ -50,37 +50,11 @@ echo "Namspace $tenant has been created"
 
 echo
 
-#echo "Creating Jmeter slave nodes"
-
 nodes=`kubectl get no | wc -l`
 
 echo
 
 echo "Number of nodes on this cluster is " $nodes
-
-#echo
-
-#echo "Creating $nodes Jmeter slave replicas and service"
-
-#echo
-
-#kubectl create -n $tenant -f $working_dir/jmeter_slaves_deploy.yaml
-
-#kubectl create -n $tenant -f $working_dir/jmeter_slaves_deploy1.yaml
-
-#kubectl create -n $tenant -f $working_dir/jmeter_slaves_svc.yaml
-
-#kubectl create -n $tenant -f $working_dir/jmeter_slaves_svc1.yaml
-
-#echo "Creating Jmeter Master"
-
-#kubectl create -n $tenant -f $working_dir/jmeter_master_configmap.yaml
-
-#kubectl create -n $tenant -f $working_dir/jmeter_master_deploy.yaml
-
-#kubectl create -n $tenant -f $working_dir/jmeter_master_deploy1.yaml
-
-#echo "Creating Influxdb and the service"
 
 kubectl create -n $tenant -f $working_dir/templates/jmeter_influxdb_configmap.yaml
 
