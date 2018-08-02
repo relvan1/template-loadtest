@@ -1,0 +1,24 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: listingpage-slave
+  labels:
+    jmeter_mode: listingpage-slave
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      jmeter_mode: listingpage-slave
+  template:
+    metadata:
+      labels:
+        jmeter_mode: listingpage-slave
+    spec:
+      containers:
+      - name: jmslave
+        image: relvan/jmeter-slave
+        ports:
+        - containerPort: 1099
+        - containerPort: 50000
+      nodeSelector:
+        type: master2

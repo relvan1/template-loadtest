@@ -52,16 +52,6 @@ fi
 
 echo $jmxFile,$csv,$nodeName >>mapper.csv
 
-
-#cp templates/jmeter_master_configmap.yaml $working_dir
-
-#sed -i "s/nodeVariable/$nodeName/g" $working_dir/jmeter_master_configmap.yaml
-
-#kubectl create -n $tenant -f $working_dir/jmeter_master_configmap.yaml
-
-#cp templates/jmeter_master_deploy.yaml $working_dir
-
-
 read -p "Enter another jmx file [y/n] " status
 
 if [ $status ];then
@@ -95,9 +85,7 @@ do
 	nodeName=`cat mapper.csv | grep $i | awk 'BEGIN{FS=","} ; { print $3 }'`
 
 	sed -i "s/nodeVariable/$nodeName/g" jmeter_master_configmap.yaml
-
-
-
+        
 	kubectl create -n $tenant -f $working_dir/jmeter_master_configmap.yaml
 
 	cp templates/jmeter_master_deploy.yaml ./
@@ -116,6 +104,8 @@ do
 	kubectl create -n $tenant -f jmeter_master_deploy.yaml
 	
 	fi
+        
+        sleep 10
 
         master_pod=`kubectl get po -n $tenant | grep  ${jmxName}-master | awk '{print $1}'`
 
@@ -146,6 +136,8 @@ do
 	kubectl create -n $tenant -f jmeter_slaves_deploy.yaml
 
 	fi
+
+	sleep 10
 
 	if [ $csv ];then
 	echo "Started to copy $csv folder on slave pods"

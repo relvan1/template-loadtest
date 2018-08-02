@@ -1,0 +1,33 @@
+apiVersion: apps/v1beta2 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: listingpage-master
+  labels:
+    jmeter_mode: listingpage-master
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      jmeter_mode: listingpage-master
+  template:
+    metadata:
+      labels:
+        jmeter_mode: listingpage-master 
+    spec:
+      containers:
+      - name: listingpage-master
+        image: relvan/jmeter-master
+        command: [ "/bin/bash", "-c", "--" ]
+        args: [ "while true; do sleep 30; done;" ]
+        volumeMounts:
+          - name: loadtest
+            mountPath: /load_test
+            subPath: "load_test"
+        ports:
+        - containerPort: 60000
+      volumes:
+      - name: loadtest 
+        configMap:
+         name: jmeter-load-test
+      nodeSelector:
+        type: master2
